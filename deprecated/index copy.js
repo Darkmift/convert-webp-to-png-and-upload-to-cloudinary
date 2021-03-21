@@ -1,13 +1,19 @@
+/***
+ * 1.grabs images from url
+ * 2.converts to png format
+ * 3.uploads to cloudinary
+ */
+
 const result = require('dotenv').config();
 
 if (result.error) {
     throw result.error;
 }
-const imgJson = require('./data/src.json');
+const imgJson = require('../data/src.json');
 if (!imgJson) {
     throw new Error('Is there a json?');
 }
-const { downloadFile, uploadImg } = require('./downloadFile');
+const { downloadFile, uploadImg } = require('../module/downloadFile');
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function main() {

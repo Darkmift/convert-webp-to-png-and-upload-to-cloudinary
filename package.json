@@ -2,9 +2,9 @@
   "name": "converter",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "ndb index.js"
+    "start": "ndb server.js"
   },
   "author": "Avi E. Koenig",
   "license": "ISC",
