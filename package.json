@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "ndb server.js"
+    "start": "ndb -r dotenv/config server.js",
+    "test": "nodemon server.js"
   },
   "author": "Avi E. Koenig",
   "license": "ISC",

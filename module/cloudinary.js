@@ -5,7 +5,12 @@ cloudinary.config({
     api_secret: process.env.API_SECRET,
 });
 
-const cloudinaryUpload = async (path, cloudFolderName, cloudFileName, ver) => {
+const cloudinaryUploadFile = async (
+    path,
+    cloudFolderName,
+    cloudFileName,
+    ver
+) => {
     if (
         path === '' ||
         cloudFolderName === '' ||
@@ -40,4 +45,20 @@ const cloudinaryUpload = async (path, cloudFolderName, cloudFileName, ver) => {
     });
 };
 
-module.exports = { uploadImg: cloudinaryUpload };
+function streamToCloudinary(readStream, options = {}) {
+    return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+            {options},
+            function (err, image) {
+                if (err) {
+                    console.error('failed streaming to cloudinary', err);
+                    reject(err);
+                }
+                resolve(image);
+            }
+        );
+
+        readStream.pipe(uploadStream);
+    });
+}
+module.exports = { cloudinaryUploadFile, streamToCloudinary };

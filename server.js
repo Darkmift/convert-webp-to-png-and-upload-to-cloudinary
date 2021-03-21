@@ -1,18 +1,20 @@
+const dotenv = require('dotenv');
+const result = dotenv.config();
+if (result.error) {
+    throw result.error;
+}
+
 const path = require('path');
 const sharp = require('sharp');
 
-const { makeId } = require('./module/makeId');
 const { axiosToStream } = require('./module/axiosToStream');
-const { promisifyWriteStream } = require('./module/promisifyWriteStream');
-
+const { streamToCloudinary } = require('./module/cloudinary');
 const INPUT_IMAGE_DIR = path.join(__dirname, 'data', 'images', 'input');
 const OUTPUT_IMAGE_DIR = path.join(__dirname, 'data', 'images', 'output');
 
 async function main() {
     try {
         console.log({ INPUT_IMAGE_DIR, OUTPUT_IMAGE_DIR });
-
-        const filePath = path.join(INPUT_IMAGE_DIR, makeId() + '.png');
         const url =
             'https://www.rd.com/wp-content/uploads/2019/04/shutterstock_1013848126.jpg';
 
@@ -30,12 +32,15 @@ async function main() {
             .toFormat('png');
 
         const stream = resStream.pipe(transformer);
-        const writeResult = await promisifyWriteStream(stream, filePath);
-
-        console.log('done', writeResult);
+        const uploadRes = await streamToCloudinary(stream, (options = {}));
+        console.log(
+            '🚀 ~ file: server.js ~ line 37 ~ main ~ uploadRes',
+            uploadRes
+        );
     } catch (error) {
         console.log('🚀 ~MAIN CATCH ERROR', error);
     }
 }
 
 main();
+
