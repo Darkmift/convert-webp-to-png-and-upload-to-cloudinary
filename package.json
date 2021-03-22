@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "ndb -r dotenv/config server.js",
+    "start": "ndb convertStays.js",
+    "userConvert": "ndb convertUsers.js",
     "test": "nodemon server.js"
   },
   "author": "Avi E. Koenig",
